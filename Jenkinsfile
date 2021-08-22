@@ -14,7 +14,7 @@ pipeline{
         stage('Build image') {
             steps {
                script{
-                   buildImage()
+                   buildImage "v3.0"
                }
             }
         }
@@ -27,7 +27,7 @@ pipeline{
             }
             steps {
               script{
-                 pushImage()
+                 pushImage "v3.0"
               }
             }
         }
