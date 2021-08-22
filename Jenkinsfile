@@ -19,6 +19,11 @@ pipeline{
         }
 
         stage('push image' ) {
+            when {
+                expression {
+                    env.BRANCH_NAME == main
+                }
+            }
             steps {
               script{
                   gv.push()
