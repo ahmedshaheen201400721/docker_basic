@@ -1,16 +1,13 @@
-@Library("shared-library")   // to include libaray , usr libray_name
+// @Library("shared-library")   // to include libaray , usr libray_name
+library identifier: 'jenkins_shared_library@simple', retriever: modernSCM(
+  [$class: 'GitSCMSource',
+   remote: 'https://github.com/ahmedshaheen201400721/jenkins_shared_library.git',
+   credentialsId: 'github-credentials'])
 def gv
 pipeline{
     agent any
     stages  {
-        stage("init"){
-            steps{
-                script{
-                    gv = load "script.groovy"
-                }
-            }
-        }
-
+       
         stage('Build image') {
             steps {
                script{
