@@ -1,3 +1,4 @@
+@Library("shared-library")   // to include libaray , usr libray_name
 def gv
 pipeline{
     agent any
@@ -13,7 +14,7 @@ pipeline{
         stage('Build image') {
             steps {
                script{
-                   gv.build()
+                   buildImage()
                }
             }
         }
@@ -21,12 +22,12 @@ pipeline{
         stage('push image' ) {
             when {
                 expression {
-                    env.BRANCH_NAME == "main"
+                    env.BRANCH_NAME == "main" || BRANCH_NAME == "dev"
                 }
             }
             steps {
               script{
-                  gv.push()
+                 pushImage()
               }
             }
         }
