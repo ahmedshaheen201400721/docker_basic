@@ -10,23 +10,30 @@ pipeline{
             }
         }
 
+       stage("version"){
+            steps{
+                script{
+                        sh " npm version minor --prefix app/  "
+                        sh (script:'''node -pe "require('./app/package.json')['version']" ''', , returnStdout:true).trim()
+                        env.ImageName= sh (script: 'npm --version ', , returnStdout:true).trim()
+                        echo "$ImageName"
+                }
+            }
+        }
+
+
         stage('Build image') {
             steps {
                script{
-                   gv.build()
+                   gv.build "$ImageName"
                }
             }
         }
 
         stage('push image' ) {
-            when {
-                expression {
-                    env.BRANCH_NAME == "main"
-                }
-            }
             steps {
               script{
-                  gv.push()
+                  gv.push "$ImageName"
               }
             }
         }
