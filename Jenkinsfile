@@ -14,8 +14,8 @@ pipeline{
             steps{
                 script{
                         sh " npm version minor --prefix app/  "
-                        sh (script:'''node -pe "require('./app/package.json')['version']" ''', , returnStdout:true).trim()
-                        env.ImageName= sh (script: 'npm --version ', , returnStdout:true).trim()
+                       env.ImageName=  sh (script:'''node -pe "require('./app/package.json')['version']" ''', , returnStdout:true).trim()
+                        sh (script: 'npm --version ', , returnStdout:true).trim()
                         echo "$ImageName"
                 }
             }
@@ -25,6 +25,7 @@ pipeline{
         stage('Build image') {
             steps {
                script{
+                   echo "building image"
                    gv.build "$ImageName"
                }
             }
